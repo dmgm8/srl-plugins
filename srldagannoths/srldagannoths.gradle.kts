@@ -24,7 +24,7 @@
  */
 
 
-version = "4.0.0"
+version = "4.0.1"
 
 project.extra["PluginName"] = "SRL Dagannoths Prayers"
 project.extra["PluginDescription"] = "Prayers for days"

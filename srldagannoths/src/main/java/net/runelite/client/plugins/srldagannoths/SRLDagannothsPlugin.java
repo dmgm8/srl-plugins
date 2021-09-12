@@ -84,12 +84,6 @@ public class SRLDagannothsPlugin extends Plugin
 	@Inject
 	private ConfigManager configManager;
 
-
-	@Provides
-	SRLDagannothsConfig getConfig(ConfigManager configManager) {
-		return configManager.getConfig(SRLDagannothsConfig.class);
-	}
-
 	@Override
 	public void startUp()
 	{
@@ -307,23 +301,6 @@ public class SRLDagannothsPlugin extends Plugin
 		client.getCanvas().dispatchEvent(new MouseEvent(client.getCanvas(), 501, System.currentTimeMillis(), 0, pos.getX(), pos.getY(), 1, false, 1));
 		client.getCanvas().dispatchEvent(new MouseEvent(client.getCanvas(), 502, System.currentTimeMillis(), 0, pos.getX(), pos.getY(), 1, false, 1));
 		client.getCanvas().dispatchEvent(new MouseEvent(client.getCanvas(), 500, System.currentTimeMillis(), 0, pos.getX(), pos.getY(), 1, false, 1));
-	}
-
-	@Inject
-	private ChatMessageManager chatMessageManager;
-
-	public void sendMsg (String message) {
-		if (getConfig(configManager).useTestStuff()) {
-			String msg = new ChatMessageBuilder()
-					.append(ChatColorType.NORMAL)
-					.append(message)
-					.build();
-
-			chatMessageManager.queue(QueuedMessage.builder()
-					.type(ChatMessageType.CONSOLE)
-					.runeLiteFormattedMessage(msg)
-					.build());
-		}
 	}
 
 }
