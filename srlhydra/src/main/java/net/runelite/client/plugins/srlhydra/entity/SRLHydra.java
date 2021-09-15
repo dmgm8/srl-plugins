@@ -24,10 +24,9 @@
  */
 package net.runelite.client.plugins.srlhydra.entity;
 
-import java.awt.image.BufferedImage;
 import javax.annotation.Nullable;
 import javax.inject.Singleton;
-import lombok.AccessLevel;
+
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -35,20 +34,18 @@ import net.runelite.api.NPC;
 import net.runelite.api.Prayer;
 import net.runelite.api.ProjectileID;
 import net.runelite.api.SpriteID;
-import net.runelite.client.game.SpriteManager;
-import net.runelite.client.util.ImageUtil;
 
 @Getter
 @RequiredArgsConstructor
 @Singleton
-public class Hydra
+public class SRLHydra
 {
 	private static final int MAX_HP = 1100;
 
 	@Nullable
 	private final NPC npc;
 
-	private HydraPhase phase = HydraPhase.POISON;
+	private SRLHydraPhase phase = SRLHydraPhase.POISON;
 
 	private AttackStyle nextAttack = AttackStyle.MAGIC;
 
@@ -73,14 +70,14 @@ public class Hydra
 		return nextSpecial - attackCount;
 	}
 
-	public void changePhase(final HydraPhase hydraPhase)
+	public void changePhase(final SRLHydraPhase SRLHydraPhase)
 	{
-		phase = hydraPhase;
+		phase = SRLHydraPhase;
 		nextSpecial = 3;
 		attackCount = 0;
 		immunity = true;
 
-		if (hydraPhase == HydraPhase.ENRAGED)
+		if (SRLHydraPhase == SRLHydraPhase.ENRAGED)
 		{
 			immunity = false;
 			switchStyles();
@@ -125,9 +122,9 @@ public class Hydra
 
 	private void switchStyles()
 	{
-		nextAttack = lastAttack == Hydra.AttackStyle.MAGIC
-			? Hydra.AttackStyle.RANGED
-			: Hydra.AttackStyle.MAGIC;
+		nextAttack = lastAttack == SRLHydra.AttackStyle.MAGIC
+			? SRLHydra.AttackStyle.RANGED
+			: SRLHydra.AttackStyle.MAGIC;
 	}
 
 	private int getHp()

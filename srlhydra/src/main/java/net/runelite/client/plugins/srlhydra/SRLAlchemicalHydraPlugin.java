@@ -44,20 +44,20 @@ import net.runelite.client.config.ConfigManager;
 import net.runelite.client.eventbus.Subscribe;
 import net.runelite.client.plugins.Plugin;
 import net.runelite.client.plugins.PluginDescriptor;
-import net.runelite.client.plugins.srlhydra.entity.Hydra;
-import net.runelite.client.plugins.srlhydra.entity.Hydra.AttackStyle;
-import net.runelite.client.plugins.srlhydra.entity.HydraPhase;
+import net.runelite.client.plugins.srlhydra.entity.SRLHydra;
+import net.runelite.client.plugins.srlhydra.entity.SRLHydra.AttackStyle;
+import net.runelite.client.plugins.srlhydra.entity.SRLHydraPhase;
 import org.pf4j.Extension;
 
 @Singleton
 @Extension
 @PluginDescriptor(
-	name = "Alchemical Hydra",
+	name = "SRL Alchemical Hydra",
 	enabledByDefault = false,
 	description = "A plugin for the Alchemical Hydra boss.",
 	tags = {"alchemical", "hydra"}
 )
-public class AlchemicalHydraPlugin extends Plugin
+public class SRLAlchemicalHydraPlugin extends Plugin
 {
 	private static final String MESSAGE_NEUTRALIZE = "The chemicals neutralise the Alchemical Hydra's defences!";
 	private static final String MESSAGE_STUN = "The Alchemical Hydra temporarily stuns you.";
@@ -70,7 +70,7 @@ public class AlchemicalHydraPlugin extends Plugin
 	private boolean atHydra;
 
 	@Getter
-	private Hydra hydra;
+	private SRLHydra SRLHydra;
 	public static final int HYDRA_1_1 = 8237;
 	public static final int HYDRA_1_2 = 8238;
 	public static final int HYDRA_LIGHTNING = 8241;
@@ -87,15 +87,15 @@ public class AlchemicalHydraPlugin extends Plugin
 
 
 	@Provides
-	HydraConfig provideConfig(ConfigManager configManager)
+	SRLHydraConfig provideConfig(ConfigManager configManager)
 	{
-		return configManager.getConfig(HydraConfig.class);
+		return configManager.getConfig(SRLHydraConfig.class);
 	}
 
 	private int lastAttackTick = -1;
 
 	@Inject
-	private HydraConfig config;
+	private SRLHydraConfig config;
 
 	@Override
 	protected void startUp()
@@ -121,7 +121,7 @@ public class AlchemicalHydraPlugin extends Plugin
 	{
 		atHydra = false;
 
-		hydra = null;
+		SRLHydra = null;
 		poisonProjectiles.clear();
 		lastAttackTick = -1;
 	}
@@ -164,7 +164,7 @@ public class AlchemicalHydraPlugin extends Plugin
 	private void onGameTick(final GameTick event)
 	{
 		if (atHydra) {
-			final Prayer prayer = hydra.getNextAttack().getPrayer();
+			final Prayer prayer = SRLHydra.getNextAttack().getPrayer();
 			if (!client.isPrayerActive(prayer)) {
 				activatePrayer(prayer);
 			}
@@ -178,7 +178,7 @@ public class AlchemicalHydraPlugin extends Plugin
 
 		if (npc.getId() == NpcID.ALCHEMICAL_HYDRA)
 		{
-			hydra = new Hydra(npc);
+			SRLHydra = new SRLHydra(npc);
 		}
 	}
 
@@ -187,32 +187,32 @@ public class AlchemicalHydraPlugin extends Plugin
 	{
 		final Actor actor = event.getActor();
 
-		if (hydra == null || actor != hydra.getNpc())
+		if (SRLHydra == null || actor != SRLHydra.getNpc())
 		{
 			return;
 		}
 
-		final HydraPhase phase = hydra.getPhase();
+		final SRLHydraPhase phase = SRLHydra.getPhase();
 
 		final int animationId = actor.getAnimation();
 
-		if ((animationId == phase.getDeathAnimation2() && phase != HydraPhase.FLAME)
-			|| (animationId == phase.getDeathAnimation1() && phase == HydraPhase.FLAME))
+		if ((animationId == phase.getDeathAnimation2() && phase != SRLHydraPhase.FLAME)
+			|| (animationId == phase.getDeathAnimation1() && phase == SRLHydraPhase.FLAME))
 		{
 			switch (phase)
 			{
 				case POISON:
-					hydra.changePhase(HydraPhase.LIGHTNING);
+					SRLHydra.changePhase(SRLHydraPhase.LIGHTNING);
 					break;
 				case LIGHTNING:
-					hydra.changePhase(HydraPhase.FLAME);
+					SRLHydra.changePhase(SRLHydraPhase.FLAME);
 					break;
 				case FLAME:
-					hydra.changePhase(HydraPhase.ENRAGED);
+					SRLHydra.changePhase(SRLHydraPhase.ENRAGED);
 					break;
 				case ENRAGED:
 					// NpcDespawned event does not fire for Hydra inbetween kills; must use death animation.
-					hydra = null;
+					SRLHydra = null;
 
 					if (!poisonProjectiles.isEmpty())
 					{
@@ -225,7 +225,7 @@ public class AlchemicalHydraPlugin extends Plugin
 		}
 		else if (animationId == phase.getSpecialAnimationId() && phase.getSpecialAnimationId() != 0)
 		{
-			hydra.setNextSpecial();
+			SRLHydra.setNextSpecial();
 		}
 
 		if (!poisonProjectiles.isEmpty())
@@ -239,18 +239,18 @@ public class AlchemicalHydraPlugin extends Plugin
 	{
 		final Projectile projectile = event.getProjectile();
 
-		if (hydra == null || client.getGameCycle() >= projectile.getStartMovementCycle())
+		if (SRLHydra == null || client.getGameCycle() >= projectile.getStartMovementCycle())
 		{
 			return;
 		}
 
 		final int projectileId = projectile.getId();
 
-		if (hydra.getPhase().getSpecialProjectileId() == projectileId)
+		if (SRLHydra.getPhase().getSpecialProjectileId() == projectileId)
 		{
-			if (hydra.getAttackCount() >= hydra.getNextSpecial())
+			if (SRLHydra.getAttackCount() >= SRLHydra.getNextSpecial())
 			{
-				hydra.setNextSpecial();
+				SRLHydra.setNextSpecial();
 			}
 
 			poisonProjectiles.put(event.getPosition(), projectile);
@@ -258,7 +258,7 @@ public class AlchemicalHydraPlugin extends Plugin
 		else if (client.getTickCount() != lastAttackTick
 			&& (projectileId == AttackStyle.MAGIC.getProjectileID() || projectileId == AttackStyle.RANGED.getProjectileID()))
 		{
-			hydra.handleProjectile(projectileId);
+			SRLHydra.handleProjectile(projectileId);
 
 			lastAttackTick = client.getTickCount();
 		}
@@ -278,7 +278,7 @@ public class AlchemicalHydraPlugin extends Plugin
 
 		if (message.equals(MESSAGE_NEUTRALIZE))
 		{
-			hydra.setImmunity(false);
+			SRLHydra.setImmunity(false);
 		}
 	}
 

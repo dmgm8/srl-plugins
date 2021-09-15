@@ -23,7 +23,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-version = "4.0.0"
+version = "5.0.0"
 
 project.extra["PluginName"] = "SRL Hydra"
 project.extra["PluginDescription"] = "Auto Prayers for Alchemical Hydra"

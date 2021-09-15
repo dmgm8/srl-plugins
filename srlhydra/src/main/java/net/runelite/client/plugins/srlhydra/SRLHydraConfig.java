@@ -5,7 +5,7 @@ import net.runelite.client.config.ConfigGroup;
 import net.runelite.client.config.ConfigItem;
 
 @ConfigGroup("srlhydra")
-public interface HydraConfig extends Config {
+public interface SRLHydraConfig extends Config {
 
     @ConfigItem(
             keyName = "usePrayerTick",

@@ -31,20 +31,20 @@ import lombok.RequiredArgsConstructor;
 import net.runelite.api.ProjectileID;
 import net.runelite.api.SpriteID;
 import net.runelite.api.coords.WorldPoint;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_1_1;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_1_2;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_2_1;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_2_2;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_3_1;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_3_2;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_4_1;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_4_2;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_FIRE;
-import static net.runelite.client.plugins.srlhydra.AlchemicalHydraPlugin.HYDRA_LIGHTNING;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_1_1;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_1_2;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_2_1;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_2_2;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_3_1;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_3_2;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_4_1;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_4_2;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_FIRE;
+import static net.runelite.client.plugins.srlhydra.SRLAlchemicalHydraPlugin.HYDRA_LIGHTNING;
 
 @Getter
 @RequiredArgsConstructor
-public enum HydraPhase
+public enum SRLHydraPhase
 {
 	POISON(3, HYDRA_1_1, HYDRA_1_2, ProjectileID.HYDRA_POISON, 0,
 		825, SpriteID.BIG_ASS_GUTHIX_SPELL, new WorldPoint(1371, 10263, 0), Color.GREEN, Color.RED),
