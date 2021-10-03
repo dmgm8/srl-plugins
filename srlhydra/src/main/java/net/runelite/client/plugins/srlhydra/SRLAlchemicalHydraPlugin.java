@@ -168,6 +168,7 @@ public class SRLAlchemicalHydraPlugin extends Plugin
 			if (!client.isPrayerActive(prayer)) {
 				activatePrayer(prayer);
 			}
+
 		}
 	}
 
